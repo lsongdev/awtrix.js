@@ -4,7 +4,6 @@ const assert = require('assert');
 const Stream = require('stream');
 
 const request = (method, url, payload, headers) => {
-  console.log(url, payload);
   const client = url.startsWith('https://') ? https : http;
   return new Promise((resolve, reject) => {
     const req = client.request(url, {
@@ -40,9 +39,6 @@ const ensureStatusCode = expected => {
   };
 };
 
-const get = (url, headers) =>
-  request('get', url, '', headers);
-
 const post = (url, payload, headers) =>
   request('post', url, payload, headers);
 
@@ -58,10 +54,6 @@ const postJSON = (url, payload) => {
     .then(res => res.length ? JSON.parse(res) : res);
 }
 
-const defaultColor = [
-  0, 255, 0
-];
-
 class Awtrix {
   constructor({ api }) {
     this.api = api;
@@ -75,7 +67,7 @@ class Awtrix {
   set(key, value) {
     return this.call('/settings', { [key]: value });
   }
-  brightness(value) {
+  brightness(value = 75) {
     return this.set('Brightness', value);
   }
   draw(arr, { repeat = 1 } = {}) {
@@ -88,7 +80,7 @@ class Awtrix {
     repeat = 1,
     soundfile = 1,
     name = 'TestNotification',
-    color = defaultColor,
+    color = new Awtrix.Color(),
   } = {}) {
     return this.call('/notify', {
       name,

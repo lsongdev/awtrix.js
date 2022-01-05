@@ -13,6 +13,8 @@ const awtrix = new Awtrix({
   const res = await awtrix.notify('hello');
   console.log(res);
 
+  await awtrix.brightness(50);
+
 })();
 
 

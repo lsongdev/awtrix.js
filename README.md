@@ -1,13 +1,41 @@
-## Awtrix in JavaScript
+## Awtrix
 
+> Awtrix in JavaScript
 
-### install
+### Install
 
 ```sh
 ~$ npm i awtrix --save
 ```
 
-### example
+### Command-line Usage
+
+```sh
+~$ npm i -g awtrix
+~$ export AWTRIX_API=https://awtrix.lsong.me/api/v3
+~$ awtrix
+
+  awtrix 0.0.0
+
+  Usage: awtrix <command>
+
+  Commands:
+
+  get_settings
+  set <key> <value>
+  brightness <value>
+  notify <text>
+  draw <array>
+
+  Examples:
+
+  awtrix get_settings
+  awtrix set Brightness 50
+  awtrix brightness 50
+  awtrix notify "Hello World"
+```
+
+### Example
 
 ```js
 const Awtrix = require('awtrix');
@@ -23,6 +51,14 @@ get settings:
 (async () => {
   const settings = await awtrix.get_settings();
   console.log(settings);
+})();
+```
+
+set brightness:
+
+```js
+(async () => {
+  await awtrix.brightness(50);
 })();
 ```
 
@@ -85,3 +121,7 @@ draw:
 })();
 
 ```
+
+### License
+
+  MIT @ Lsong <hi@lsong.org>
