@@ -2,6 +2,8 @@
 
 > Awtrix in JavaScript
 
+https://awtrixdocs.blueforcer.de/#/en-en/api
+
 ### Install
 
 ```sh
