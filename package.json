@@ -2,11 +2,9 @@
   "name": "awtrix",
   "version": "0.0.1",
   "main": "index.js",
-  "bin": {
-    "awtrix": "bin/awtrix.js"
-  },
+  "bin": "bin/awtrix.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test"
   },
   "repository": {
     "type": "git",
@@ -24,5 +22,8 @@
   "description": "Awtrix in JavaScript",
   "directories": {
     "example": "example"
+  },
+  "dependencies": {
+    "kelp-cli": "^0.0.1"
   }
 }

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const Awtrix = require('..');
+const program = require('kelp-cli');
 const { name, version } = require('../package.json');
 
 const { AWTRIX_API } = process.env;
@@ -8,8 +9,6 @@ const { AWTRIX_API } = process.env;
 const awtrix = new Awtrix({
   api: AWTRIX_API,
 });
-
-const [command, ...args] = process.argv.slice(2);
 
 const help = () => {
   console.log();
@@ -37,30 +36,35 @@ const help = () => {
   console.log();
 };
 
-const commands = {
-  help,
-  version() {
-    console.log(version);
-  },
-  get_settings: async () => {
-    const settings = await awtrix.get_settings();
-    console.log(settings);
-  },
-  set: async (key, value) => {
-    if (!key) console.error('Missing key');
-    if (!value) console.error('Missing value');
+
+program()
+  .command('help', help)
+  .command('set', async ({ _: [key, value] }) => {
     const res = await awtrix.set(key, value);
     console.log(res);
-  },
-  brightness: async (value) => {
-    if (!value) return console.error('brightness: missing value');
+  })
+  .command('get', async ({ _: [key] }) => {
+    const value = await awtrix.get(key);
+    console.log(value);
+  })
+  .command('get_version', async () => {
+    const version = await awtrix.get_version();
+    console.log(version);
+  })
+  .command('uptime', async () => {
+    const uptime = await awtrix.get_uptime();
+    console.log(uptime);
+  })
+  .command('power', async ({ _: [state] }) => {
+    const res = await awtrix.power(state === 'on');
+    console.log(res);
+  })
+  .command('brightness', ({ _: [value] }) => {
     const res = await awtrix.brightness(value);
     console.log(res);
-  },
-  notify: async (text) => {
-    if (!text) return console.error('Missing text');
-    await awtrix.notify(text);
-  }
-};
-
-;(commands[command] || commands.help).apply(null, args);
+  })
+  .command('notify', async ({ _: [message], options }) => {
+    const res = await awtrix.notify(message, options);
+    console.log(res);
+  })
+  .parse();

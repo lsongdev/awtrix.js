@@ -61,18 +61,151 @@ class Awtrix {
   call(path, body) {
     return postJSON(this.api + path, body);
   }
-  get_settings() {
-    return this.call('/basics', { "get": "settings" });
+  /**
+   * Basic Controls
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=basic-controls
+   * @param {*} payload 
+   * @returns 
+   */
+  call_basics(payload) {
+    return this.call('/basics', payload);
   }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=power
+   * @param {*} state 
+   * @returns 
+   */
+  power(state = true) {
+    return this.call_basics({ power: state });
+  }
+  power_on() {
+    return this.power(true);
+  }
+  power_off() {
+    return this.power(false);
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=switchto
+   * @param {*} app 
+   * @returns 
+   */
+  switchTo(app) {
+    return this.call_basics({ switchTo: app });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=appstate
+   * @param {*} app 
+   * @returns 
+   */
+  enable(app) {
+    return this.call_basics({ enable: app });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=appstate
+   * @param {*} app 
+   * @returns 
+   */
+  disable(app) {
+    return this.call_basics({ disable: app })
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=apploop
+   * @param {*} app 
+   * @returns 
+   */
+  next(app) {
+    return this.call_basics({ next: app });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=showanimation
+   * @param {*} effect 
+   * @returns 
+   */
+  showAnimation(effect) {
+    return this.call_basics({ showAnimation: effect });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=soundfile
+   * @param {*} id 
+   * @returns 
+   */
+  soundfile(id) {
+    return this.call_basics({ soundfile: id });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=timer
+   * @param {*} timer 
+   * @param {*} param1 
+   * @returns 
+   */
+  timer(timer, { soundfile, color, count, text } = {}) {
+    return this.call_basics({ timer, soundfile, color, count, text });
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=stopwatch
+   * @param {*} icon 
+   * @returns 
+   */
+  stopwatch(icon) {
+    const start = !!icon;
+    return this.call_basics({ stopwatch: start, icon });
+  }
+  stopwatch_stop() {
+    return this.stopwatch(false);
+  }
+  /**
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=yeelight
+   * @param {*} effect 
+   * @param {*} duration 
+   * @returns 
+   */
+  yeelight(effect, duration = 10) {
+    return this.call_basics({ yeelight: [effect, duration] });
+  }
+  get(key) {
+    return this.call_basics({ get: key })
+  }
+  get_settings() {
+    return this.get('settings');
+  }
+  get_installedApps() {
+    return this.get('installedApps');
+  }
+  get_version() {
+    return this.get('version');
+  }
+  get_uptime() {
+    return this.get('uptime');
+  }
+  get_power_state() {
+    return this.get('powerState');
+  }
+  get_log() {
+    return this.get('log');
+  }
+  get_matrixInfo() {
+    return this.get('matrixInfo');
+  }
+  /**
+   * Change settings
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=change-settings
+   * @param {*} key 
+   * @param {*} value 
+   * @returns 
+   */
   set(key, value) {
     return this.call('/settings', { [key]: value });
   }
   brightness(value = 75) {
     return this.set('Brightness', value);
   }
-  draw(arr, { repeat = 1 } = {}) {
-    return this.call('/draw', { draw: arr, repeat })
-  }
+  /**
+   * Notifications
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=notifications
+   * @param {*} text 
+   * @param {*} param1 
+   * @returns 
+   */
   notify(text, {
     icon = 6,
     force = false,
@@ -92,6 +225,16 @@ class Awtrix {
       moveIcon,
       soundfile,
     });
+  }
+  /**
+   * Drawing
+   * https://awtrixdocs.blueforcer.de/#/en-en/api?id=drawing
+   * @param {*} arr 
+   * @param {*} param1 
+   * @returns 
+   */
+  draw(arr, { repeat = 1 } = {}) {
+    return this.call('/draw', { draw: arr, repeat })
   }
 }
 
